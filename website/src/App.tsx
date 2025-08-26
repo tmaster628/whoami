@@ -23,9 +23,9 @@ function App() {
             </p>
             <p>
               My area of focus is the intersection of <b>Computer Science</b>{" "}
-              and <b>Education</b>, and I'm particularly interested in learning
-              engagement and assessment, especially given the omnipresence of
-              LLM's.{" "}
+              and <b>Education</b>, and I'm particularly interested in how the
+              learner's experience has been affected by modern technology,
+              especially given the omnipresence of LLM's.{" "}
             </p>
             <p>
               Previously, I worked as a <b>full-stack engineer</b> at the EdTech
@@ -57,10 +57,10 @@ function App() {
               , a new group whose focus is <b>P</b>edagogy <b>in</b> <b>C</b>
               omputer <b>S</b>cience. We're rolling out a platform that allows
               anyone to create interdisciplinary lessons that enrich
-              non-computational topics with CS.
+              non-computational subjects with CS.
             </p>
             <p>
-              I'm also working with Professor{" "}
+              I'm also working with Prof.{" "}
               <a href="https://cs.stanford.edu/~keithw/" target="_blank">
                 Keith Winstein
               </a>{" "}
@@ -93,6 +93,11 @@ function App() {
             <p>Here are some links, if you're curious:</p>
             <a href={"../docs/CV.pdf"}>My CV</a>
             <br />
+            <a href="https://github.com/tmaster628" target="_blank">
+              My Github
+            </a>
+            <br />
+
             <Link to={"/"}>My Hobbies (coming soon!)</Link>
             <br />
           </div>
