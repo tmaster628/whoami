@@ -91,9 +91,9 @@ function App() {
             </p>
             <br />
             <p>Here are some links, if you're curious:</p>
-            <a href={"../whoami/docs/CV.pdf"}>My CV</a>
+            <a href={"../docs/CV.pdf"}>My CV</a>
             <br />
-            <Link to={"/whoami"}>My Hobbies (coming soon!)</Link>
+            <Link to={"/"}>My Hobbies (coming soon!)</Link>
             <br />
           </div>
           <div className="flex flex-1 flex-col items-center justify-start">
