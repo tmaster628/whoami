@@ -15,7 +15,7 @@ function App() {
       <Outlet />
       <main className="p-6">
         <h1>Hi, I'm Trip 👋</h1>
-        <div className="flex flex-row">
+        <div className="flex flex-row  gap-4">
           <div className="flex-3 flex-col">
             <p>
               I'm a computer scientist and educator currently based in{" "}
