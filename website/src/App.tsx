@@ -91,7 +91,7 @@ function App() {
             </p>
             <br />
             <p>Here are some links, if you're curious:</p>
-            <a href={"./docs/CV.pdf"}>My CV</a>
+            <a href={"/CV.pdf"}>My CV</a>
             <br />
             <a href="https://github.com/tmaster628" target="_blank">
               My Github
