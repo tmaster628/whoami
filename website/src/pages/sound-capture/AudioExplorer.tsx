@@ -27,7 +27,6 @@ export default function AudioExplorer({
     <div className="w-full max-w-5xl mx-auto p-4 space-y-4">
       <header className="flex items-center justify-between">
         <div>
-         
           <p className="text-sm text-gray-500">
             {samples.length} samples @ {sampleRate.toLocaleString()} Hz (~
             {(samples.length / sampleRate).toFixed(2)}s)
@@ -70,9 +69,9 @@ export default function AudioExplorer({
       )}
       {tab === "FFT Window" && (
         <Card>
-            <WindowFFTCanvas samples={samples} sampleRate={sampleRate} />
+          <WindowFFTCanvas samples={samples} sampleRate={sampleRate} />
         </Card>
-      ) }
+      )}
     </div>
   );
 }
@@ -110,7 +109,10 @@ function WaveformCanvas({
     256,
     Math.min(samples.length, Math.floor((winMs / 1000) * sampleRate))
   );
-  const clampedStart = Math.max(0, Math.min(startSample, Math.max(0, samples.length - windowSamples)));
+  const clampedStart = Math.max(
+    0,
+    Math.min(startSample, Math.max(0, samples.length - windowSamples))
+  );
   const endSample = clampedStart + windowSamples;
 
   useEffect(() => {
@@ -199,7 +201,11 @@ function WaveformCanvas({
       ctx.lineTo(x + 0.5, plotY0 + plotH);
       ctx.stroke();
       ctx.fillStyle = "#6b7280";
-      ctx.fillText(t.toFixed(dur < 1 ? 3 : 2) + " s", x, plotY0 + plotH + 4 * dpr);
+      ctx.fillText(
+        t.toFixed(dur < 1 ? 3 : 2) + " s",
+        x,
+        plotY0 + plotH + 4 * dpr
+      );
     }
     // X label
     ctx.fillStyle = "#6b7280";
@@ -308,7 +314,6 @@ function WaveformCanvas({
   );
 }
 
-
 /************************\n * 2) Spectrum (FFT)     *
  ************************/
 function SpectrumCanvas({
@@ -328,7 +333,7 @@ function SpectrumCanvas({
   // ---- Zoom & Pan (in Hz) ----
   const nyquist = sampleRate / 2;
   const [winHz, setWinHz] = useState<number>(nyquist); // window width
-  const [startHz, setStartHz] = useState<number>(0);   // left edge
+  const [startHz, setStartHz] = useState<number>(0); // left edge
   const endHz = Math.min(nyquist, startHz + winHz);
 
   // Clamp pan whenever zoom changes
@@ -415,11 +420,7 @@ function SpectrumCanvas({
     ctx.fillStyle = "#6b7280";
     ctx.font = `${11 * dpr}px ui-sans-serif, system-ui`;
 
-    for (
-      let f = Math.ceil(f0 / stepHz) * stepHz;
-      f <= f1 + 1e-6;
-      f += stepHz
-    ) {
+    for (let f = Math.ceil(f0 / stepHz) * stepHz; f <= f1 + 1e-6; f += stepHz) {
       const x = xFromHz(f);
       ctx.strokeStyle = "#f3f4f6";
       ctx.beginPath();
@@ -435,7 +436,11 @@ function SpectrumCanvas({
     ctx.rotate(-Math.PI / 2);
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(logScale ? "Magnitude (dB rel. max)" : "Magnitude (rel.)", 0, 0);
+    ctx.fillText(
+      logScale ? "Magnitude (dB rel. max)" : "Magnitude (rel.)",
+      0,
+      0
+    );
     ctx.restore();
 
     // Draw spectrum within [f0, f1]
@@ -487,7 +492,11 @@ function SpectrumCanvas({
       ctx.textAlign = "left";
       ctx.textBaseline = "bottom";
       const label = `${fPeak.toFixed(1)} Hz`;
-      ctx.fillText(label, Math.min(xPeak + 6 * dpr, plotX + plotW - 30 * dpr), Math.max(yPeak - 6 * dpr, plotY + 10 * dpr));
+      ctx.fillText(
+        label,
+        Math.min(xPeak + 6 * dpr, plotX + plotW - 30 * dpr),
+        Math.max(yPeak - 6 * dpr, plotY + 10 * dpr)
+      );
     }
 
     // Axis captions
@@ -550,7 +559,9 @@ function SpectrumCanvas({
             value={winHz}
             onChange={(e) => setWinHz(parseInt(e.target.value))}
           />
-          <span className="tabular-nums w-20 text-right">{Math.round(winHz)} Hz</span>
+          <span className="tabular-nums w-20 text-right">
+            {Math.round(winHz)} Hz
+          </span>
         </label>
 
         <label className="flex items-center gap-2">
@@ -563,11 +574,14 @@ function SpectrumCanvas({
             value={Math.min(startHz, nyquist - winHz)}
             onChange={(e) => setStartHz(parseInt(e.target.value))}
           />
-          <span className="tabular-nums w-20 text-right">{Math.round(startHz)} Hz</span>
+          <span className="tabular-nums w-20 text-right">
+            {Math.round(startHz)} Hz
+          </span>
         </label>
 
         <span className="ml-auto text-gray-500">
-          Bin ≈ {binHz.toFixed(1)} Hz · View {Math.round(startHz)}–{Math.round(endHz)} Hz
+          Bin ≈ {binHz.toFixed(1)} Hz · View {Math.round(startHz)}–
+          {Math.round(endHz)} Hz
         </span>
       </div>
 
@@ -575,7 +589,6 @@ function SpectrumCanvas({
     </div>
   );
 }
-
 
 /*************************************\n * 3) Sampling & Quantization Demo   *
  *************************************/
@@ -588,12 +601,12 @@ function SamplingCanvas({
 }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [targetRate, setTargetRate] = useState(8000); // Hz
-  const [bits, setBits] = useState(8);                // PCM bits
+  const [bits, setBits] = useState(8); // PCM bits
   const [showZero, setShowZero] = useState(true);
 
   // --- X-axis zoom & pan (time window) ---
   const fullMs = Math.max(1, Math.round((samples.length / sampleRate) * 1000));
-  const [winMs, setWinMs] = useState(Math.min(750, fullMs)); // default ~0.75s
+  const [winMs, setWinMs] = useState(fullMs); // default ~0.75s
   const windowSamples = Math.max(
     256,
     Math.min(samples.length, Math.floor((winMs / 1000) * sampleRate))
@@ -686,7 +699,7 @@ function SamplingCanvas({
       ctx.stroke();
       ctx.fillStyle = "#6b7280";
       ctx.fillText(
-        (t).toFixed(dur < 1 ? 3 : 2) + " s",
+        t.toFixed(dur < 1 ? 3 : 2) + " s",
         x,
         plotY0 + plotH + 4 * dpr
       );
@@ -777,7 +790,7 @@ function SamplingCanvas({
       ctx.lineTo(x, y);
       ctx.stroke();
     }
-     // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [samples, sampleRate, targetRate, bits, showZero, winMs, startSample]);
 
   // Keep pan in range when zoom changes
@@ -860,7 +873,6 @@ function SamplingCanvas({
 
 // optional named export
 export { SamplingCanvas };
-
 
 /***************************\n * 4) Windowed FFT View     *
  ***************************/
@@ -984,7 +996,6 @@ export function WindowFFTCanvas({
 
 // Remember to export this new component and add it as a tab in AudioExplorer if desired.
 
-
 /***********************\n * Math / DSP Helpers   *
  ***********************/
 function nextPow2(n: number) {
@@ -1028,7 +1039,8 @@ function fftComplex(realIn: Float64Array) {
     const wpr = Math.cos(theta);
     const wpi = Math.sin(theta);
     for (let start = 0; start < N; start += size) {
-      let wr = 1, wi = 0;
+      let wr = 1,
+        wi = 0;
       for (let k = 0; k < half; k++) {
         const i0 = start + k;
         const i1 = i0 + half;

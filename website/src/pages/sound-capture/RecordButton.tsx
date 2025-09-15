@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { record3sPCM } from "./AudioRecord";
-import { MicrophoneIcon } from "@heroicons/react/24/outline";
+import { MicrophoneIcon, StopCircleIcon } from "@heroicons/react/24/outline";
 
 type RecordButtonProps = {
-  setSamples: (Float32Array) => void;
-  setSampleRate: (number) => void;
-}
+  setSamples: (samples: Float32Array) => void;
+  setSampleRate: (rate: number) => void;
+};
 
-export default function RecordButton({setSamples, setSampleRate} : RecordButtonProps) {
+export default function RecordButton({
+  setSamples,
+  setSampleRate,
+}: RecordButtonProps) {
   const [isRecording, setIsRecording] = useState(false);
 
   async function handleRecord() {
@@ -21,27 +24,28 @@ export default function RecordButton({setSamples, setSampleRate} : RecordButtonP
     }
   }
 
- return (
+  return (
     <>
       {isRecording ? (
-        <>
-      <MicrophoneIcon
-        role="button"
-        width={36}
-        className="p-2 rounded-full bg-blue-400 color-black cursor-pointer"
-        onClick={handleRecord}
-      />
-      <p>Recording...</p>
-      </>
-    ) : (
-      <MicrophoneIcon
-        role="button"
-        width={36}
-        className="p-2 rounded-full bg-red-400 color-black cursor-pointer"
-        onClick={handleRecord}
-      />
-    )}
+        <div className="flex flex-col gap-3">
+          <StopCircleIcon
+            role="button"
+            width={200}
+            className="p-2 rounded-full bg-red-500 color-black animate-spin"
+            onClick={handleRecord}
+          />
+          <div className="items-start text-black">
+            Recording for 3 seconds...{" "}
+          </div>
+        </div>
+      ) : (
+        <MicrophoneIcon
+          role="button"
+          width={200}
+          className="p-2 rounded-full bg-red-500 color-black hover:bg-red-400 cursor-pointer"
+          onClick={handleRecord}
+        />
+      )}
     </>
   );
-
 }
