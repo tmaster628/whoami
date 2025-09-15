@@ -1,31 +1,21 @@
-import { MicrophoneIcon, StopCircleIcon } from "@heroicons/react/24/outline";
-import { useMemo, useState } from "react";
+import {  useState } from "react";
+import RecordButton from "./RecordButton";
+import AudioExplorer from "./AudioExplorer";
 
-export default function SoundCapture() {
-  const [isRecording, setIsRecording] = useState(false);
-
-  const recordButton = useMemo(() => {
-    return isRecording ? (
-      <StopCircleIcon
-        role="button"
-        width={36}
-        className="p-1 rounded-full bg-red-400 color-black cursor-pointer"
-        onClick={() => setIsRecording((prev) => !prev)}
-      />
-    ) : (
-      <MicrophoneIcon
-        role="button"
-        width={36}
-        className="p-2 rounded-full bg-red-400 color-black cursor-pointer"
-        onClick={() => setIsRecording((prev) => !prev)}
-      />
-    );
-  }, [isRecording, setIsRecording]);
-
+  export default function SoundCapture() {
+    const [samples, setSamples] = useState<Float32Array<ArrayBufferLike>>();
+    const [sampleRate, setSampleRate] = useState<number>();
+  
   return (
-    <div className="flex flex-col h-screen w-screen">
-      <div className="items-center text-black">Sound capture page</div>
-      <div className="flex items-center justify-center">{recordButton}</div>
+    <div className="flex flex-col h-screen w-screen p-4">
+       <h1 className="text-2xl font-semibold">Audio Explorer</h1>
+       <p>Click the record button to record a 3-second audio sample. Then you'll be able to analyze it in the explorer tool!</p>
+      <div className="flex items-center justify-center">
+        <RecordButton setSamples={setSamples} setSampleRate={setSampleRate}/>
+      </div>
+      {samples && sampleRate && (
+        <AudioExplorer samples={samples} sampleRate={sampleRate}/>
+      )}
     </div>
   );
 }

@@ -97,7 +97,6 @@ function App() {
               My Github
             </a>
             <br />
-
             <Link to={"/"}>My Hobbies (coming soon!)</Link>
             <br />
           </div>
