@@ -87,7 +87,7 @@ function App() {
             <p>
               I'm always eager to chat with people about the CS / Education
               space or about my hobbies. Or maybe you just want to know if "Trip
-              Master" is my real name. Either way, let's talk.
+              Master" is my real name. Either way, let's talk!
             </p>
             <br />
             <p>Here are some links, if you're curious:</p>
